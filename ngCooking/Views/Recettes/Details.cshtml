@@ -1,0 +1,148 @@
+﻿@model ngCooking.Models.IngredientCategorieRecette
+
+    <div id="wrapper">
+        <main id="main">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        <div class="content" id="content_recettes_details">
+                            @foreach (var item in Model.Recette)
+                            {
+                                <section class="section">
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <img class="recette_img" src="../img/recettes/@item.picture" alt="../@item.name">
+                                        </div>
+                                        <div class="col-xs-8">
+                                            <h1 class="rec_name">@item.name</h1>
+                                            <p class="rec_note">
+                                                <span class="stars">
+                                                    <span class="star glyphicon glyphicon-heart"></span>
+                                                </span>
+                                                <span class="notes">| 4,8/5 - 120 votes</span>
+                                            </p>
+                                            <div class="ingredients_list">
+                                                <p class="list-title">Ingrédients</p>
+                                                <ul class="list">
+                                                    @foreach (var item1 in Model.Ingredient)
+                                                    {
+                                                        <li class="item">
+                                                            <img class="item-img" src="../img/ingredients/@item1.picture" alt="tomate">
+                                                            <p class="item-name" title="tomate">@item1.Name</p>
+                                                        </li>
+                                                    }                                                   
+                                                </ul>
+                                            </div>
+                                            <p class="rec_cal">Valeur calorique <span class="for">(100g)</span> : <span class="val">@item.calories</span></p>
+                                        </div>
+                                    </div>
+                                </section>
+                                <section class="section">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <h2 class="overline-title"><span class="text">Préparation</span></h2>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <p>@item.preparation</p>
+                                        </div>
+                                    </div>
+                                </section>
+                                @*Commentaire*@
+                                <section class="section">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <h2 class="overline-title"><span class="text">Commentaires</span></h2>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6">
+                                            <div class="panel">
+                                                <div class="filters">
+                                                    <h3 class="panel_title">Donnez-nous votre avis !</h3>
+                                                    <form action="">
+                                                        @Html.HiddenFor(m => m.idRecette)
+                                                        <div class="filter">
+                                                            <p><label for="">Notez cette recette</label></p>
+                                                            <p>
+                                                                <select name="mark" id="">
+                                                                    <option value="5">5</option>
+                                                                    <option value="4">4</option>
+                                                                    <option value="3">3</option>
+                                                                    <option value="2">2</option>
+                                                                    <option value="1">1</option>
+                                                                </select>
+                                                            </p>
+                                                        </div>
+                                                        <div class="filter">
+                                                            <input name="idRecette" value="1" type="hidden" />
+                                                            <p><label for="">Le titre de votre commentaire</label></p>
+                                                            <p><input type="text" placeholder="ex: Amazingue !" required name="title"></p>
+                                                        </div>
+                                                        <div class="filter">
+                                                            <p><label for="">Votre commentaire</label></p>
+                                                            <textarea name="comment" id="" class="wide" placeholder="ex: Franchement cette NgRecette" required></textarea>
+                                                        </div>
+                                                        @if (Request.IsAuthenticated)
+                                                        {
+                                                            <div class="ar">
+                                                                <input type="submit" class="btn btn_color1" value="Poster !">
+                                                            </div>
+                                                        }
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6">
+                                            <ul class="comments">
+                                                @foreach (var item1 in Model.Comment)
+                                                {
+                                                    <li class="comment">
+                                                        <p class="name">@item1.title<span class="note">@item1.mark/5</span></p>
+                                                        @foreach (var item2 in Model.Communaute)
+                                                        {
+                                                            <p class="by">par <a href="@Url.Action("Details", "Communaute", new { id = item.idcommunaute })">@item2.firstname</a></p>
+                                                        }
+                                                        <p class="text">@item1.comment1</p>
+                                                    </li>
+                                                }
+                                            </ul>
+                                            <div class="row showmore">
+                                                <div class="col-xs-12">
+                                                    <button type="submit" class="btn btn_grey"><span class="glyphicon glyphicon-chevron-down"></span>Afficher d'avantage</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </section>
+                            }
+                            @* Section Autre recettes*@
+                            <section class="section">
+                                <h2 class="title">~ Vous aimerez aussi... ~</h2>
+                                <div class="recettes row">
+                                    <div>
+                                        @foreach (var item1 in Model.Recette)
+                                        {
+                                            <a href="">
+                                                <div class="col-xs-6 col-sm-3 recette">
+                                                    <img src="../img/recettes/@item1.picture" alt="@item1.name">
+                                                    <div class="top" title="note :3,5/5">
+                                                        <span class="note">
+                                                            <span class="glyphicon glyphicon-heart"></span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="bot">
+                                                        <p class="name">@item1.name</p>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        }
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+

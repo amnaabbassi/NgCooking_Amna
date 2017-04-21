@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8db8e84b06614e47bc325839ce301b3f" Name="Diagram1">
+        <EntityTypeShape EntityType="ngCooking_AmnaModel.Categorie" Width="1.5" PointX="0.75" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ngCooking_AmnaModel.Comment" Width="1.5" PointX="7" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="ngCooking_AmnaModel.Communaute" Width="1.5" PointX="0.75" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ngCooking_AmnaModel.Ingredient" Width="1.5" PointX="3" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="ngCooking_AmnaModel.Recette" Width="1.5" PointX="3.875" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ngCooking_AmnaModel.RecetteIngredient" Width="1.5" PointX="10.5" PointY="6.5" IsExpanded="true" />
+        <AssociationConnector Association="ngCooking_AmnaModel.FK_Ingredient_Categorie" ManuallyRouted="false" />
+        <AssociationConnector Association="ngCooking_AmnaModel.FK_Comment_Recette" ManuallyRouted="false" />
+        <AssociationConnector Association="ngCooking_AmnaModel.FK_Recette_Communaute" ManuallyRouted="false" />
+        <AssociationConnector Association="ngCooking_AmnaModel.FK_RecetteIngredient_Ingredient" ManuallyRouted="false" />
+        <AssociationConnector Association="ngCooking_AmnaModel.FK_RecetteIngredient_Recette" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

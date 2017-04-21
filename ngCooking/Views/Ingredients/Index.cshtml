@@ -1,0 +1,69 @@
+﻿@model  ngCooking.Models.IngredientCategorie
+<div id="wrapper">
+    <main id="main">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-9">
+                    <div class="content" id="content_ingredients">
+                        <h1 class="page-title">Les ingredients</h1>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="panel">
+                                    <div class="row imgback">
+                                        <div class="hidden-xs col-sm-3"></div>
+                                        <div class="col-xs-12 col-sm-9 fp">
+                                            <div class="filters">
+                                                <form action="#" novalidate method="get">
+                                                    <div class="filter">
+                                                        <p><label for="">Nom de l'ingrédient</label></p>
+                                                        <p><input type="text" placeholder="ex: Banane" name="name"></p>
+                                                    </div>
+                                                    <div class="filter">
+                                                        <p><label for="">Catégorie</label></p>
+                                                        <p>
+                                                            <select name="categorie" id="categorie">
+                                                                @foreach (var item in Model.Categorie)
+                                                                {
+                                                                    <option value="@item.nameToDisplay" name="optioncat">@item.nameToDisplay</option>
+                                                                }
+
+                                                            </select>
+                                                        </p>
+                                                    </div>
+                                                    <div class="filter">
+                                                        <p><label for="">Nombre de calories <span class="fwn">(kcal/100g)</span></label></p>
+                                                        <p>
+                                                            <span class="span-label">entre :</span>
+                                                            <input type="number" class="mr0" placeholder="ex: 70" name="calorie1">
+                                                            <span class="span-label">et</span>
+                                                            <input type="number" placeholder="ex: 220" name="calorie2">
+                                                        </p>
+                                                    </div>
+                                                    <input type="submit" value="Rechercher" />
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="result">
+                                    <div class="ingredients row" id="Ingredientlist">
+                                        @ViewBag.ingr
+                                        @Html.Partial("_Ingredient", Model)                                  
+                                    </div>
+                                </div>
+                                <div class="row showmore">
+                                    <div class="col-xs-12">
+                                        <button type="button" class="btn btn_color1" id="afficherPlus"><span class="glyphicon glyphicon-chevron-down"></span>Afficher d'avantage</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+

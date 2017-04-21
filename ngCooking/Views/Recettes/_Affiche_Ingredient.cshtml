@@ -1,0 +1,5 @@
+﻿@model ngCooking.Models.IngredientCategorieRecette
+@foreach (var item in Model.Ingredient)
+{
+    <option value="@item.IdIngredient">@item.Name</option>
+}

@@ -1,0 +1,35 @@
+﻿@model  ngCooking.Models.IngredientCategorie
+@foreach (var item in Model.Ingredient)
+{
+    <div class="col-xs-12 ingredient">
+        <div class="ing-wrap">
+
+            <div class="top">
+
+                <p class="name">@item.Name</p>
+                <img class="img" src="../img/ingredients/@item.picture" alt="@item.Name">
+                <div class="calories-wrap">
+                    <div class="val">
+                        <span>@item.calories</span>
+                        <div class="battery">
+                            @*pourcentage ci-dessous à moduler en fonction du nombre de calories de l'ingredient sur nombre de calories max*@
+                            <div class="level" style="width: @item.calories%/100%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bot">
+                <p class="description"></p>
+                <div class="list">
+                    <p class="list-title">Aliments similaires</p>
+                    <ul>
+                        <li class="item">
+                            <img class="item-img" src="../img/ingredients/@item.picture" alt="@item.Name">
+                            <p class="item-name" title="@item.Name">@item.Name</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+}

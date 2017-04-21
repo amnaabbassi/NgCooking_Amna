@@ -1,0 +1,22 @@
+﻿@model IEnumerable<NgCooking.DAL.Entities.Recette>
+@if (Model != null)
+{
+    foreach (var item in Model.Take(5))
+    {
+        <a href="@Url.Action("Details", "Recettes", new { idrecette = item.idRecette })">
+            <div class="col-xs-6 col-sm-3 recette">
+                <img src="../img/recettes/@item.picture" alt="Le tajine de ta maman" height="250">
+                <div class="top" title="note : 3,2/5">
+                    <span class="stars">
+                        <span class="star glyphicon glyphicon-heart"></span>
+                    </span>
+                </div>
+                <div class="bot">
+
+                    <p class="name">@item.name</p>
+
+                </div>
+            </div>
+        </a>
+    }
+}

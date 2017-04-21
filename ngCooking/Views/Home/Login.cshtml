@@ -1,0 +1,44 @@
+﻿@model NgCooking.DAL.Entities.Communaute
+
+<div id="wrapper">
+    <main id="main">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-9">
+                    <div class="content" id="content_recettes">
+                        <section class="section">
+                            <h2 class="title">~ Connexion ~</h2>
+
+
+                            <div class="filters">
+
+                                <form action="#" method="post">
+                                    @using (Html.BeginForm())
+                                    {
+
+                                        <p>
+                                            @Html.LabelFor(model => model.email)
+                                            <input type="text" placeholder="Email" name="email">
+                                            <span style="color:red">@ViewBag.MessageErreurEmail</span>
+                                        </p>
+
+                                        <p>
+                                            @Html.LabelFor(model => model.password)
+                                            <input type="password" placeholder="password" name="password" />
+                                            <span style="color:red">@ViewBag.MessageErreurPassword</span>
+                                        </p>
+
+                                        <p class="ac nm mt2">
+                                            <button type="submit" class="btn btn_big btn_color1"><span class="glyphicon glyphicon-ok"></span><span class="fwb uc">Valider</span></button>
+                                        </p>
+                                    }
+                                </form>
+
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

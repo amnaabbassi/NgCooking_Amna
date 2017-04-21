@@ -1,0 +1,6 @@
+﻿@model ngCooking.Models.IngredientCategorieRecette
+
+<li class="item" calories="@Model.Calories">
+    @Html.Partial("_AfficherLogoIngredient", Model)
+    <button type="button" class="remove_ingredient" id="@Model.IdIngredient" name="@Model.Name"><span class="glyphicon glyphicon-remove"></span></button>
+</li>

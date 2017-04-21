@@ -1,0 +1,156 @@
+﻿@model ngCooking.Models.IngredientCategorieRecette
+@if (Model != null)
+{
+    <div id="wrapper">
+        <main id="main">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        <div class="content" id="content_recettes_new">
+                            <h1 class="page-title">Nouvelle recette</h1>
+                            <section class="section">
+                                <form action="#" method="post">
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <p class="line">
+                                                <label for="">Le nom de votre recette</label>
+                                                <input type="text" class="mb0 wide" required name="NomRecetteAdd">
+                                            </p>
+                                            <p class="line">
+                                                <label for="">Catégorie</label>
+                                                <select name="categorieOption" id="" class="mb0 wide" required>
+                                                    @foreach (var item in Model.Categorie)
+                                                    {
+                                                        <option value="@item.nameToDisplay">@item.nameToDisplay</option>
+                                                    }
+                                                </select>
+                                            </p>
+                                            <p class="line">
+                                                <label for="">Préparation de votre recette</label>
+                                                <textarea id="recette_desc" class="resizable mb0 wide" required name="PreparationRecette"></textarea>
+                                            </p>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <p class="line">
+                                                <label for="">Photo de la recette</label>
+                                                <input type="file" class="mb0" id="PhotoRecette" name="recetteImage">
+                                            </p>
+                                            <p class="line ac">
+                                                <img class="current_img" src="../img/recette_placeholder.jpg" alt="Visuel recette" id="recetteImage">
+                                            </p>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <div class="hr mt2 mb2"></div>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <p class="line ac">
+                                                <label for="">Sélectionnez tous les ingrédients de votre recette</label>
+                                            </p>
+                                            <p class="ac">
+                                                <select id="categories" name="categorie">
+                                                    @foreach (var item in Model.Categorie)
+                                                    {
+                                                        <option value="@item.nameToDisplay">@item.nameToDisplay</option>
+                                                    }
+                                                </select>
+                                                <span class="span-label"><span class="glyphicon glyphicon-menu-right nm"></span></span>
+                                                <select name="IngredientName" id="ingredients">
+                                                    @Html.Partial("_Affiche_Ingredient", Model)
+                                                </select>
+                                                <button type="button" class="btn btn_color3" id="addIngredient"><span class="glyphicon glyphicon-plus"></span></button>
+                                            </p>
+                                            <div class="ingredients_list">
+                                                <ul class="list ac" id="ingredientsListe"></ul>
+                                            </div>
+                                            <div class="ac">
+                                                <p class="recette_total_calories">
+                                                    <span class="tit">Valeur calorique <span class="mass">(100g)</span> : </span><span class="val" name="totalCalories" id="totalCalories">@ViewBag.Calorie<span class="unit">kcal</span></span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <div class="hr mb2"></div>
+                                        </div>
+                                        <div class="col-xs-12 ac">
+                                            <button type="submit" class="btn btn_color3 recette_save" id="validerrecette"><span class="glyphicon glyphicon-ok mr0"></span><span>Valider ma recette</span></button>
+                                        </div>
+                                        <!-- Afficher au clic sur "valider ma recette" lorsque tout s'est bien déroulé -->
+                                        <div class="col-xs-12">
+                                            <p class="ac mt2 tb">
+
+                                                <span>@ViewData["Nom1"]</span>
+                                            </p>
+                                            @foreach (var item in Model.Communaute)
+                                            {
+                                                <p class="ac">
+                                                    <a class="btn btn_color1" href="@Url.Action("Details","Communaute",new { id=@item.idcommunaute})"><span class="glyphicon glyphicon-cutlery"></span><span>Mes recettes</span></a>
+                                                </p>
+                                            }
+                                        </div>
+                                    </div>
+                                </form>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        $("#PhotoRecette").change(function () {
+            var url = $(this).val();
+            var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+            if (this.files && this.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#recetteImage').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+            else {
+                $('#recetteImage').attr('src', '/img/recette_placeholder.jpg');
+            }
+        });
+        function UpdateCalories() {
+            var calories = 0;
+            $("#ingredientsListe li").each(function () {
+                calories += parseInt($(this).attr("calories"));
+            });
+            $("#Calories").val(calories);
+            $("#totalCalories").text(calories + " kcal");
+        };
+        $("#categories").change(function () {
+            $.ajax({
+                url: '@Url.Action("AfficherIngredients", "Recettes")',
+                type: 'GET',
+                data: { categorie: $("#categories").val() },
+                dataType: 'html',
+                success: function (data) {
+                    $('#ingredients').html(data);
+                }
+            });
+        });
+        $('#ingredientsListe').on("click", "li", function () {
+            $(this).remove();
+            UpdateCalories();
+        });
+
+        $("#addIngredient").click(function () {
+            var ingredient = $("#ingredients").val();
+
+            if ($('#ingredientsListe').find("#" + ingredient).length < 1 && ingredient.length > 0) {
+                $.ajax({
+                    url: '@Url.Action("AjouterIngredientListe", "Recettes")',
+                    type: 'GET',
+                    data: { ingredient: ingredient },
+                    dataType: 'html',
+                    success: function (data) {
+                        $("#ingredientsListe").append(data);
+                        UpdateCalories();
+                    }
+                });
+            }
+        });
+    </script>
+}

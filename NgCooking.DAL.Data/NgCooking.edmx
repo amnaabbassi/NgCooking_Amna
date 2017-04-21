@@ -1,0 +1,426 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ngCooking_AmnaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Categorie">
+          <Key>
+            <PropertyRef Name="IdCategorie" />
+          </Key>
+          <Property Name="IdCategorie" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nameToDisplay" Type="varchar" MaxLength="5000" />
+        </EntityType>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="IdComment" />
+          </Key>
+          <Property Name="IdComment" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="500" />
+          <Property Name="comment" Type="varchar" MaxLength="5000" />
+          <Property Name="mark" Type="int" />
+          <Property Name="idcommunaute" Type="int" />
+          <Property Name="idRecette" Type="int" />
+        </EntityType>
+        <EntityType Name="Communaute">
+          <Key>
+            <PropertyRef Name="idcommunaute" />
+          </Key>
+          <Property Name="idcommunaute" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="firstname" Type="varchar" MaxLength="500" />
+          <Property Name="surname" Type="varchar" MaxLength="500" />
+          <Property Name="email" Type="varchar" MaxLength="500" />
+          <Property Name="password" Type="varchar" MaxLength="500" />
+          <Property Name="niveau" Type="int" />
+          <Property Name="picture" Type="varchar" MaxLength="500" />
+          <Property Name="city" Type="varchar" MaxLength="500" />
+          <Property Name="birth" Type="int" />
+          <Property Name="bio" Type="varchar" MaxLength="8000" />
+        </EntityType>
+        <EntityType Name="Ingredient">
+          <Key>
+            <PropertyRef Name="IdIngredient" />
+          </Key>
+          <Property Name="IdIngredient" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="500" />
+          <Property Name="isAvailable" Type="bit" />
+          <Property Name="picture" Type="varchar" MaxLength="500" />
+          <Property Name="calories" Type="int" />
+          <Property Name="IdCategorie" Type="int" />
+        </EntityType>
+        <EntityType Name="Recette">
+          <Key>
+            <PropertyRef Name="idRecette" />
+          </Key>
+          <Property Name="idRecette" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="500" />
+          <Property Name="isAvailable" Type="bit" />
+          <Property Name="picture" Type="varchar" MaxLength="500" />
+          <Property Name="calories" Type="int" />
+          <Property Name="preparation" Type="varchar" MaxLength="8000" />
+          <Property Name="idcommunaute" Type="int" />
+        </EntityType>
+        <EntityType Name="RecetteIngredient">
+          <Key>
+            <PropertyRef Name="IdRecetteIngredient" />
+          </Key>
+          <Property Name="idRecette" Type="int" />
+          <Property Name="IdIngredient" Type="int" />
+          <Property Name="IdRecetteIngredient" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Comment_Recette">
+          <End Role="Recette" Type="Self.Recette" Multiplicity="0..1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recette">
+              <PropertyRef Name="idRecette" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="idRecette" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ingredient_Categorie">
+          <End Role="Categorie" Type="Self.Categorie" Multiplicity="0..1" />
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categorie">
+              <PropertyRef Name="IdCategorie" />
+            </Principal>
+            <Dependent Role="Ingredient">
+              <PropertyRef Name="IdCategorie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recette_Communaute">
+          <End Role="Communaute" Type="Self.Communaute" Multiplicity="0..1" />
+          <End Role="Recette" Type="Self.Recette" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Communaute">
+              <PropertyRef Name="idcommunaute" />
+            </Principal>
+            <Dependent Role="Recette">
+              <PropertyRef Name="idcommunaute" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecetteIngredient_Ingredient">
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="0..1" />
+          <End Role="RecetteIngredient" Type="Self.RecetteIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ingredient">
+              <PropertyRef Name="IdIngredient" />
+            </Principal>
+            <Dependent Role="RecetteIngredient">
+              <PropertyRef Name="IdIngredient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecetteIngredient_Recette">
+          <End Role="Recette" Type="Self.Recette" Multiplicity="0..1" />
+          <End Role="RecetteIngredient" Type="Self.RecetteIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recette">
+              <PropertyRef Name="idRecette" />
+            </Principal>
+            <Dependent Role="RecetteIngredient">
+              <PropertyRef Name="idRecette" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ngCooking_AmnaModelStoreContainer">
+          <EntitySet Name="Categorie" EntityType="Self.Categorie" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Communaute" EntityType="Self.Communaute" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ingredient" EntityType="Self.Ingredient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Recette" EntityType="Self.Recette" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RecetteIngredient" EntityType="Self.RecetteIngredient" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Comment_Recette" Association="Self.FK_Comment_Recette">
+            <End Role="Recette" EntitySet="Recette" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ingredient_Categorie" Association="Self.FK_Ingredient_Categorie">
+            <End Role="Categorie" EntitySet="Categorie" />
+            <End Role="Ingredient" EntitySet="Ingredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recette_Communaute" Association="Self.FK_Recette_Communaute">
+            <End Role="Communaute" EntitySet="Communaute" />
+            <End Role="Recette" EntitySet="Recette" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecetteIngredient_Ingredient" Association="Self.FK_RecetteIngredient_Ingredient">
+            <End Role="Ingredient" EntitySet="Ingredient" />
+            <End Role="RecetteIngredient" EntitySet="RecetteIngredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecetteIngredient_Recette" Association="Self.FK_RecetteIngredient_Recette">
+            <End Role="Recette" EntitySet="Recette" />
+            <End Role="RecetteIngredient" EntitySet="RecetteIngredient" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ngCooking_AmnaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Categorie">
+          <Key>
+            <PropertyRef Name="IdCategorie" />
+          </Key>
+          <Property Name="IdCategorie" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nameToDisplay" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Ingredient" Relationship="Self.FK_Ingredient_Categorie" FromRole="Categorie" ToRole="Ingredient" />
+        </EntityType>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="IdComment" />
+          </Key>
+          <Property Name="IdComment" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="comment1" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
+          <Property Name="mark" Type="Int32" />
+          <Property Name="idcommunaute" Type="Int32" />
+          <Property Name="idRecette" Type="Int32" />
+          <NavigationProperty Name="Recette" Relationship="Self.FK_Comment_Recette" FromRole="Comment" ToRole="Recette" />
+        </EntityType>
+        <EntityType Name="Communaute">
+          <Key>
+            <PropertyRef Name="idcommunaute" />
+          </Key>
+          <Property Name="idcommunaute" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="firstname" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="surname" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="niveau" Type="Int32" />
+          <Property Name="picture" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="city" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="birth" Type="Int32" />
+          <Property Name="bio" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Recette" Relationship="Self.FK_Recette_Communaute" FromRole="Communaute" ToRole="Recette" />
+        </EntityType>
+        <EntityType Name="Ingredient">
+          <Key>
+            <PropertyRef Name="IdIngredient" />
+          </Key>
+          <Property Name="IdIngredient" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="isAvailable" Type="Boolean" />
+          <Property Name="picture" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="calories" Type="Int32" />
+          <Property Name="IdCategorie" Type="Int32" />
+          <NavigationProperty Name="Categorie" Relationship="Self.FK_Ingredient_Categorie" FromRole="Ingredient" ToRole="Categorie" />
+          <NavigationProperty Name="RecetteIngredient" Relationship="Self.FK_RecetteIngredient_Ingredient" FromRole="Ingredient" ToRole="RecetteIngredient" />
+        </EntityType>
+        <EntityType Name="Recette">
+          <Key>
+            <PropertyRef Name="idRecette" />
+          </Key>
+          <Property Name="idRecette" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="isAvailable" Type="Boolean" />
+          <Property Name="picture" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="calories" Type="Int32" />
+          <Property Name="preparation" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+          <Property Name="idcommunaute" Type="Int32" />
+          <NavigationProperty Name="Comment" Relationship="Self.FK_Comment_Recette" FromRole="Recette" ToRole="Comment" />
+          <NavigationProperty Name="Communaute" Relationship="Self.FK_Recette_Communaute" FromRole="Recette" ToRole="Communaute" />
+          <NavigationProperty Name="RecetteIngredient" Relationship="Self.FK_RecetteIngredient_Recette" FromRole="Recette" ToRole="RecetteIngredient" />
+        </EntityType>
+        <EntityType Name="RecetteIngredient">
+          <Key>
+            <PropertyRef Name="IdRecetteIngredient" />
+          </Key>
+          <Property Name="idRecette" Type="Int32" />
+          <Property Name="IdIngredient" Type="Int32" />
+          <Property Name="IdRecetteIngredient" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Ingredient" Relationship="Self.FK_RecetteIngredient_Ingredient" FromRole="RecetteIngredient" ToRole="Ingredient" />
+          <NavigationProperty Name="Recette" Relationship="Self.FK_RecetteIngredient_Recette" FromRole="RecetteIngredient" ToRole="Recette" />
+        </EntityType>
+        <Association Name="FK_Ingredient_Categorie">
+          <End Role="Categorie" Type="Self.Categorie" Multiplicity="0..1" />
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categorie">
+              <PropertyRef Name="IdCategorie" />
+            </Principal>
+            <Dependent Role="Ingredient">
+              <PropertyRef Name="IdCategorie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_Recette">
+          <End Role="Recette" Type="Self.Recette" Multiplicity="0..1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recette">
+              <PropertyRef Name="idRecette" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="idRecette" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recette_Communaute">
+          <End Role="Communaute" Type="Self.Communaute" Multiplicity="0..1" />
+          <End Role="Recette" Type="Self.Recette" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Communaute">
+              <PropertyRef Name="idcommunaute" />
+            </Principal>
+            <Dependent Role="Recette">
+              <PropertyRef Name="idcommunaute" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecetteIngredient_Ingredient">
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="0..1" />
+          <End Role="RecetteIngredient" Type="Self.RecetteIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ingredient">
+              <PropertyRef Name="IdIngredient" />
+            </Principal>
+            <Dependent Role="RecetteIngredient">
+              <PropertyRef Name="IdIngredient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecetteIngredient_Recette">
+          <End Role="Recette" Type="Self.Recette" Multiplicity="0..1" />
+          <End Role="RecetteIngredient" Type="Self.RecetteIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recette">
+              <PropertyRef Name="idRecette" />
+            </Principal>
+            <Dependent Role="RecetteIngredient">
+              <PropertyRef Name="idRecette" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ngCooking_AmnaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categorie" EntityType="Self.Categorie" />
+          <EntitySet Name="Comment" EntityType="Self.Comment" />
+          <EntitySet Name="Communaute" EntityType="Self.Communaute" />
+          <EntitySet Name="Ingredient" EntityType="Self.Ingredient" />
+          <EntitySet Name="Recette" EntityType="Self.Recette" />
+          <EntitySet Name="RecetteIngredient" EntityType="Self.RecetteIngredient" />
+          <AssociationSet Name="FK_Ingredient_Categorie" Association="Self.FK_Ingredient_Categorie">
+            <End Role="Categorie" EntitySet="Categorie" />
+            <End Role="Ingredient" EntitySet="Ingredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_Recette" Association="Self.FK_Comment_Recette">
+            <End Role="Recette" EntitySet="Recette" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recette_Communaute" Association="Self.FK_Recette_Communaute">
+            <End Role="Communaute" EntitySet="Communaute" />
+            <End Role="Recette" EntitySet="Recette" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecetteIngredient_Ingredient" Association="Self.FK_RecetteIngredient_Ingredient">
+            <End Role="Ingredient" EntitySet="Ingredient" />
+            <End Role="RecetteIngredient" EntitySet="RecetteIngredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecetteIngredient_Recette" Association="Self.FK_RecetteIngredient_Recette">
+            <End Role="Recette" EntitySet="Recette" />
+            <End Role="RecetteIngredient" EntitySet="RecetteIngredient" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ngCooking_AmnaModelStoreContainer" CdmEntityContainer="ngCooking_AmnaEntities">
+          <EntitySetMapping Name="Categorie">
+            <EntityTypeMapping TypeName="ngCooking_AmnaModel.Categorie">
+              <MappingFragment StoreEntitySet="Categorie">
+                <ScalarProperty Name="IdCategorie" ColumnName="IdCategorie" />
+                <ScalarProperty Name="nameToDisplay" ColumnName="nameToDisplay" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Comment">
+            <EntityTypeMapping TypeName="ngCooking_AmnaModel.Comment">
+              <MappingFragment StoreEntitySet="Comment">
+                <ScalarProperty Name="IdComment" ColumnName="IdComment" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="comment1" ColumnName="comment" />
+                <ScalarProperty Name="mark" ColumnName="mark" />
+                <ScalarProperty Name="idcommunaute" ColumnName="idcommunaute" />
+                <ScalarProperty Name="idRecette" ColumnName="idRecette" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Communaute">
+            <EntityTypeMapping TypeName="ngCooking_AmnaModel.Communaute">
+              <MappingFragment StoreEntitySet="Communaute">
+                <ScalarProperty Name="idcommunaute" ColumnName="idcommunaute" />
+                <ScalarProperty Name="firstname" ColumnName="firstname" />
+                <ScalarProperty Name="surname" ColumnName="surname" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="niveau" ColumnName="niveau" />
+                <ScalarProperty Name="picture" ColumnName="picture" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="birth" ColumnName="birth" />
+                <ScalarProperty Name="bio" ColumnName="bio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ingredient">
+            <EntityTypeMapping TypeName="ngCooking_AmnaModel.Ingredient">
+              <MappingFragment StoreEntitySet="Ingredient">
+                <ScalarProperty Name="IdIngredient" ColumnName="IdIngredient" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="isAvailable" ColumnName="isAvailable" />
+                <ScalarProperty Name="picture" ColumnName="picture" />
+                <ScalarProperty Name="calories" ColumnName="calories" />
+                <ScalarProperty Name="IdCategorie" ColumnName="IdCategorie" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Recette">
+            <EntityTypeMapping TypeName="ngCooking_AmnaModel.Recette">
+              <MappingFragment StoreEntitySet="Recette">
+                <ScalarProperty Name="idRecette" ColumnName="idRecette" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="isAvailable" ColumnName="isAvailable" />
+                <ScalarProperty Name="picture" ColumnName="picture" />
+                <ScalarProperty Name="calories" ColumnName="calories" />
+                <ScalarProperty Name="preparation" ColumnName="preparation" />
+                <ScalarProperty Name="idcommunaute" ColumnName="idcommunaute" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RecetteIngredient">
+            <EntityTypeMapping TypeName="ngCooking_AmnaModel.RecetteIngredient">
+              <MappingFragment StoreEntitySet="RecetteIngredient">
+                <ScalarProperty Name="idRecette" ColumnName="idRecette" />
+                <ScalarProperty Name="IdIngredient" ColumnName="IdIngredient" />
+                <ScalarProperty Name="IdRecetteIngredient" ColumnName="IdRecetteIngredient" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
